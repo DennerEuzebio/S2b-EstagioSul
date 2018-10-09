@@ -1,9 +1,5 @@
-package pucrs.s2b.estagioSul;
+package appTestCase;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-
-import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -11,40 +7,32 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.PageFactory;
 
+import appTasks.PesquisaCodigoTasks;
 import junitparams.FileParameters;
 import junitparams.JUnitParamsRunner;
+import verificationPoints.PesquisaCodigoVerificationPoints;
 
 @RunWith(JUnitParamsRunner.class)
-public class AppTest {
+public class PesquisaCodigoTestCase {
 
 	private WebDriver driver;
-	AppTestPage page;
+	private PesquisaCodigoTasks tasks;
+	private PesquisaCodigoVerificationPoints verifica;
 
-	@Test
+	//@Test
 	public void GivenAreaPesquisaVagasWhenTestTheURLThenTrue() {
-		assertEquals("https://www.estagiosul.com.br/vagas/estagio", driver.getCurrentUrl());
+		verifica = new PesquisaCodigoVerificationPoints(driver);
+		verifica.testURL("https://www.estagiosul.com.br/vagas/estagio", "pagina blablabla");
 	}
 
 	@FileParameters("Roteiros de testes - CSV estagio sul.csv")
 	@Test
 	public void GivenAreaPesquisaVagasWhenSearchDadoThenResultado(String dado, String resultado) {
-		page.pesquisa(dado);
-		String codigoPagina = driver.getPageSource();
-		assertThat(codigoPagina, Matchers.containsString(resultado));
-	}
-
-	/*
-	 * @Test public void GivenAreaPesquisaVagasWhenSearchRThenWork() { String word =
-	 * "3"; page.pesquisa(word); String codigoPagina = driver.getPageSource();
-	 * assertThat(codigoPagina, Matchers.containsString("vaga(s) encontrada(s)")); }
-	 */
-
-	public void testURL(String url, String mensagem) {
-		String expected = url;
-		String actual = driver.getCurrentUrl();
-		assertEquals(mensagem + actual, expected, actual);
+		verifica = new PesquisaCodigoVerificationPoints(driver);
+		tasks = new PesquisaCodigoTasks(driver);
+		tasks.digitaCodigo(dado);
+		verifica.testCodigoVaga(resultado);
 	}
 
 	@Before
@@ -52,7 +40,6 @@ public class AppTest {
 		driver = new ChromeDriver();
 		String InitialPage = "https://www.estagiosul.com.br/vagas/estagio";
 		driver.get(InitialPage);
-		page = PageFactory.initElements(driver, AppTestPage.class);
 	}
 
 	@After
