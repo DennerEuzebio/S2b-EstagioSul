@@ -6,11 +6,9 @@ import appObject.PesquisaCodigoAppObjects;
 
 public class PesquisaCodigoTasks {
 	
-	private WebDriver driver;
 	private PesquisaCodigoAppObjects pesquisaCodigo;
 
 	public PesquisaCodigoTasks(WebDriver driver) {
-		this.driver=driver;
 		this.pesquisaCodigo = new PesquisaCodigoAppObjects(driver);
 	}
 	

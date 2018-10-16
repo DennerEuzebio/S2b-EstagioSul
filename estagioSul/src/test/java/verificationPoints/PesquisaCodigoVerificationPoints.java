@@ -6,7 +6,11 @@ import static org.junit.Assert.assertThat;
 import org.hamcrest.Matchers;
 import org.openqa.selenium.WebDriver;
 
+import com.relevantcodes.extentreports.ExtentTest;
+
 public class PesquisaCodigoVerificationPoints {
+	
+	static ExtentTest test;
 	
 	private WebDriver driver;
 	
